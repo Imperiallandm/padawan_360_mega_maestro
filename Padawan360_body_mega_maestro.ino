@@ -1,7 +1,7 @@
 //Maestro_Mega
 //by Steve Baudains 2022
 //This script allows for an Arduino Mega to control a Pololu Maestro board using hardware serial
-// on Tx3 on a Mega
+// on Tx3 on a Mega or software serial on Tx11
 // Please credit Dan Kraus for the original hard work on Padawan 360
 
 // =======================================================================================
@@ -44,12 +44,12 @@ Placed a 10K ohm resistor between S1 & GND on the SyRen 10 itself
 
 // SPEED AND TURN SPEEDS
 //set these 3 to whatever speeds work for you. 0-stop, 127-full speed.
-const byte DRIVESPEED1 = 30;
+const byte DRIVESPEED1 = 50;
 // Recommend beginner: 50 to 75, experienced: 100 to 127, I like 100.
 // These may vary based on your drive system and power system
-const byte DRIVESPEED2 = 45;
+const byte DRIVESPEED2 = 75;
 //Set to 0 if you only want 2 speeds.
-const byte DRIVESPEED3 = 60;
+const byte DRIVESPEED3 = 120;
 
 // Default drive speed at startup
 byte drivespeed = DRIVESPEED1;
@@ -66,7 +66,7 @@ boolean isLeftStickDrive = true;
 // If using a speed controller for the dome, sets the top speed. You'll want to vary it potenitally
 // depending on your motor. My Pittman is really fast so I dial this down a ways from top speed.
 // Use a number up to 127 for serial
-const byte DOMESPEED = 127;
+const byte DOMESPEED = 70;
 
 
 // Ramping- the lower this number the longer R2 will take to speedup or slow down,
@@ -118,7 +118,7 @@ int turnDirection = 20;
 #include <SoftwareSerial.h>
 SoftwareSerial maestroSerial(10, 11); //tx pin 11
 
-MiniMaestro maestro(Serial3); //hardware serial
+//MiniMaestro maestro(Serial3); //hardware serial
 MiniMaestro maestrosserial(maestroSerial); //software serial
 
 /////////////////////////////////////////////////////////////////
@@ -171,7 +171,7 @@ void setup() {
 
   Serial1.begin(SABERTOOTHBAUDRATE);
   Serial2.begin(DOMEBAUDRATE);
-  Serial3.begin(9600); //start serial3 for the body Maestro
+  //Serial3.begin(9600); //start serial3 for the body Maestro
   maestroSerial.begin(9600);
 
 #if defined(SYRENSIMPLE)
@@ -210,22 +210,22 @@ void setup() {
     turnAxis = RightHatX;
     domeAxis = LeftHatX;
     
-    speedSelectButton = R3;
-    hpLightToggleButton = L3;
+    speedSelectButton = L3;
+    hpLightToggleButton = R3;
   }
 
 
  // Start I2C Bus. The body is the master.
   Wire.begin();
 
-  Serial.begin(9600);
+//  Serial.begin(9600);
   // Wait for serial port to connect - used on Leonardo, Teensy and other boards with built-in USB CDC serial connection
   while (!Serial);
   if (Usb.Init() == -1) {
     //Serial.print(F("\r\nOSC did not start"));
     while (1); //halt
   }
-  Serial.print(F("\r\nXbox Wireless Receiver Library Started"));
+ // Serial.print(F("\r\nXbox Wireless Receiver Library Started"));
 }
 
 
@@ -351,7 +351,7 @@ void loop() {
   }
 
   // Logic display brightness.
-  // Hold L1 and press up/down on dpad to increase/decrease brightness
+/*  // Hold L1 and press up/down on dpad to increase/decrease brightness
   if (Xbox.getButtonClick(UP, 0)) {
     if (Xbox.getButtonPress(L1, 0)) {
       triggerI2C(10, 24);
@@ -362,46 +362,61 @@ void loop() {
       triggerI2C(10, 25);
     }
   }
-
+*/
 //Maestro stuff here
 
 if (Xbox.getButtonPress(R2, 0)) {
     if (Xbox.getButtonPress(UP, 0)) {
-     maestrosserial.restartScript(3);
-     Serial.println ("SS R2 and Up start script 3");
+     maestrosserial.restartScript(0);
+     
     } 
   }
 
-
-if (Xbox.getButtonPress(L2, 0)) {
-    if (Xbox.getButtonPress(UP, 0)) {
-     maestro.restartScript(0);
-      Serial.println ("L2 and Up start script 0");
-    }
+if (Xbox.getButtonPress(R2, 0)) {
+    if (Xbox.getButtonPress(RIGHT, 0)) {
+     maestrosserial.restartScript(1);
+     
+    } 
+  }
+if (Xbox.getButtonPress(R2, 0)) {
+    if (Xbox.getButtonPress(DOWN, 0)) {
+     maestrosserial.restartScript(2);
+     
+    } 
   }
 
+  if (Xbox.getButtonPress(R2, 0)) {
+    if (Xbox.getButtonPress(LEFT, 0)) {
+     maestrosserial.restartScript(3);
+     
+    } 
+  }
+if (Xbox.getButtonPress(L2, 0)) {
+    if (Xbox.getButtonPress(UP, 0)) {
+     maestrosserial.restartScript(4);
+     //mp3Trigger.play(1);
+    }
+  }
   if (Xbox.getButtonPress(L2, 0)) {
+    if (Xbox.getButtonPress(RIGHT, 0)) {
+     maestrosserial.restartScript(5);
+     mp3Trigger.play(3);
+    }
+  }
+ if (Xbox.getButtonPress(L2, 0)) {
     if (Xbox.getButtonPress(DOWN, 0)) {
-     maestro.restartScript(1);
-     Serial.println ("L2 and Down start script 1");
+     maestrosserial.restartScript(6);
     }
   }
 
 if (Xbox.getButtonPress(L2, 0)) {
     if (Xbox.getButtonPress(LEFT, 0)) {
-     maestro.restartScript(2);
-     Serial.println ("L2 and Left start script 2");
+     maestrosserial.restartScript(7);
     }
   }
-  if (Xbox.getButtonPress(L2, 0)) {
-    if (Xbox.getButtonPress(RIGHT, 0)) {
-     maestro.restartScript(3);
-     Serial.println ("L2 and Right start script 3");
-    }
-  }
-
  
 
+  
 /*
   //FIRE EXTINGUISHER
   // When holding L2-UP, extinguisher is spraying. WHen released, stop spraying
