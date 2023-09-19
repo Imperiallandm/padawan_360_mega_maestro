@@ -1,0 +1,138 @@
+### Sequence subroutines: ###
+
+# allopen_close
+sub allopen_close
+  500 0 0 0 0 0 0
+  0 0 0 0 0 0 frame_0..11 # Frame 0
+  500 3968 3968 3968 3968 3968 3968 frame_0..5 # Frame 1
+  500 6000 6000 6000 6000 6000 6000 frame_0..5 # Frame 2
+  500 3968 frame_5 # Frame 3
+  500 3968 frame_4 # Frame 4
+  1500 3968 frame_3 # Frame 5
+  500 3968 frame_2 # Frame 6
+  500 3968 frame_1 # Frame 7
+  500 3968 frame_0 # Frame 8
+  500 0 0 0 0 0 0 frame_0..5 # Frame 9
+  return
+# alt_opens
+sub alt_opens
+  500 0 0 0 0 0 0
+  0 0 0 0 0 0 frame_0..11 # Frame 0
+  500 6000 3968 6000 3968 6000 3968 frame_0..5 # Frame 1
+  500 3968 6000 3968 6000 3968 6000 frame_0..5 # Frame 2
+  500 6000 3968 6000 3968 6000 3968 frame_0..5 # Frame 3
+  500 3968 6000 3968 6000 3968 6000 frame_0..5 # Frame 4
+  500 3968 frame_1 # Frame 5
+  500 3968 frame_3 # Frame 6
+  500 3968 frame_5 # Frame 7
+  500 0 0 0 0 0 0 frame_0..5 # Frame 8
+  return
+# ripple
+sub ripple
+  200 0 0 0 0 0 0
+  0 0 0 0 0 0 frame_0..11 # Frame 0
+  200 3968 3968 3968 3968 3968 3968 frame_0..5 # Frame 1
+  200 6000 frame_0 # Frame 2
+  200 6000 frame_1 # Frame 3
+  200 3968 6000 frame_0_2 # Frame 4
+  200 3968 6000 frame_1_3 # Frame 5
+  200 3968 6000 frame_2_4 # Frame 6
+  200 3968 6000 frame_3_5 # Frame 7
+  200 3968 frame_4 # Frame 8
+  200 3968 frame_5 # Frame 9
+  return
+# wave
+sub wave
+  1000 0 0 0 0 0 0
+  0 0 0 0 0 0 frame_0..11 # Frame 0
+  200 6000 frame_0 # Frame 1
+  200 5600 frame_0 # Frame 2
+  200 6000 frame_0 # Frame 3
+  200 5600 frame_0 # Frame 4
+  200 6000 frame_0 # Frame 5
+  200 5600 frame_0 # Frame 6
+  200 6000 frame_0 # Frame 7
+  200 5600 frame_0 # Frame 8
+  500 3968 frame_0 # Frame 9
+  500 0 frame_0 # Frame 10
+  return
+
+sub frame_0..11
+  11 servo
+  10 servo
+  9 servo
+  8 servo
+  7 servo
+  6 servo
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+  delay
+  return
+
+sub frame_0..5
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+  delay
+  return
+
+sub frame_5
+  5 servo
+  delay
+  return
+
+sub frame_4
+  4 servo
+  delay
+  return
+
+sub frame_3
+  3 servo
+  delay
+  return
+
+sub frame_2
+  2 servo
+  delay
+  return
+
+sub frame_1
+  1 servo
+  delay
+  return
+
+sub frame_0
+  0 servo
+  delay
+  return
+
+sub frame_0_2
+  2 servo
+  0 servo
+  delay
+  return
+
+sub frame_1_3
+  3 servo
+  1 servo
+  delay
+  return
+
+sub frame_2_4
+  4 servo
+  2 servo
+  delay
+  return
+
+sub frame_3_5
+  5 servo
+  3 servo
+  delay
+  return
